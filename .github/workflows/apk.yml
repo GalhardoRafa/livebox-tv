@@ -1,0 +1,45 @@
+name: Gerar APK do LiveBox TV
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.9
+
+      - name: Compilar
+        run: gradle assembleRelease --no-daemon --stacktrace
+
+      - name: Renomear
+        run: cp app/build/outputs/apk/release/app-release.apk LiveBox-TV.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LiveBox-TV
+          path: LiveBox-TV.apk
+
+      # Link fixo para baixar na TV: github.com/<usuario>/<repositorio>/releases/download/apk/LiveBox-TV.apk
+      - name: Publicar em Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk
+          name: LiveBox TV (APK mais recente)
+          body: APK mais recente do LiveBox para Android TV. Baixe o arquivo LiveBox-TV.apk.
+          files: LiveBox-TV.apk
+          make_latest: true
