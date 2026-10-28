@@ -1,0 +1,46 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'br.livebox.tv'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'br.livebox.tv'
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName '1.0'
+    }
+
+    // Chave fixa dentro do projeto: assim cada APK novo atualiza o anterior sem precisar desinstalar.
+    signingConfigs {
+        livebox {
+            storeFile file('livebox.jks')
+            storePassword 'livebox'
+            keyAlias 'livebox'
+            keyPassword 'livebox'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.livebox
+        }
+        debug {
+            signingConfig signingConfigs.livebox
+        }
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}

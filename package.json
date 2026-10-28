@@ -1,0 +1,16 @@
+{
+  "name": "livebox-android-build",
+  "private": true,
+  "description": "Gera a pasta app/src/main/assets/www do LiveBox para Android TV",
+  "scripts": { "build:www": "node build-www.js" },
+  "dependencies": {
+    "hls.js": "1.5.15",
+    "mpegts.js": "1.7.3"
+  },
+  "devDependencies": {
+    "buffer": "6.0.3",
+    "esbuild": "0.24.2",
+    "fflate": "0.8.2",
+    "js-md5": "0.8.3"
+  }
+}
